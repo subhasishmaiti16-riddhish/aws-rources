@@ -4,11 +4,15 @@ on:
   push:
     branches:
       - main
-      - feature/**
+      - 'feature/**'
+
+permissions:
+  id-token: write
+  contents: read
 
 jobs:
   terraform:
-    runs-on: self-hosted
+    runs-on: [self-hosted, mama]
 
     defaults:
       run:
@@ -23,6 +27,7 @@ jobs:
         with:
           role-to-assume: arn:aws:iam::484614878994:role/GitHubTerraformRole
           aws-region: ap-south-1
+          audience: sts.amazonaws.com
 
       - name: Verify AWS Authentication
         run: aws sts get-caller-identity
@@ -36,15 +41,12 @@ jobs:
       - name: Terraform Validate
         run: terraform validate
 
-      - name: Terraform Plan
-        run: terraform plan
-
-       # Feature branch: Terraform Plan
+      # Feature branch: Plan only
       - name: Terraform Plan
         if: startsWith(github.ref, 'refs/heads/feature/')
         run: terraform plan
 
-      # Main branch: Terraform Apply
+      # Main branch: Apply
       - name: Terraform Apply
         if: github.ref == 'refs/heads/main'
         run: terraform apply -auto-approve
