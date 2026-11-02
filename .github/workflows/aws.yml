@@ -26,7 +26,7 @@ jobs:
 
       # প্রথমে OIDC Claims বের করবে
       - name: Inspect GitHub OIDC Claims
-        shell: powershell
+        shell: powershell -ExecutionPolicy Bypass -File {0}
         run: |
           $uri = "$($env:ACTIONS_ID_TOKEN_REQUEST_URL)&audience=sts.amazonaws.com"
 
