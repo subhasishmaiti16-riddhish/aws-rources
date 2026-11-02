@@ -16,40 +16,12 @@ jobs:
 
     defaults:
       run:
+        shell: powershell -ExecutionPolicy Bypass -File {0}
         working-directory: ./parent
 
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-
-      - name: Inspect GitHub OIDC Claims
-        shell: powershell
-        run: |
-          $uri = "$($env:ACTIONS_ID_TOKEN_REQUEST_URL)&audience=sts.amazonaws.com"
-
-          $response = Invoke-RestMethod `
-            -Uri $uri `
-            -Headers @{
-              Authorization = "Bearer $env:ACTIONS_ID_TOKEN_REQUEST_TOKEN"
-            }
-
-          $jwt = $response.value
-          $payload = $jwt.Split('.')[1].Replace('-', '+').Replace('_', '/')
-
-          switch ($payload.Length % 4) {
-            2 { $payload += '==' }
-            3 { $payload += '=' }
-          }
-
-          $json = [System.Text.Encoding]::UTF8.GetString(
-            [Convert]::FromBase64String($payload)
-          )
-
-          $claims = $json | ConvertFrom-Json
-
-          Write-Host "Issuer: $($claims.iss)"
-          Write-Host "Audience: $($claims.aud)"
-          Write-Host "Subject: $($claims.sub)"
 
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v6
