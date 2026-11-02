@@ -23,7 +23,7 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Inspect GitHub OIDC Claims
-        shell: pwsh
+        shell: powershell
         run: |
           $uri = "$($env:ACTIONS_ID_TOKEN_REQUEST_URL)&audience=sts.amazonaws.com"
 
