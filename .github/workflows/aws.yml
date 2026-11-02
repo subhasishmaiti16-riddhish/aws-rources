@@ -10,6 +10,10 @@ jobs:
   terraform:
     runs-on: [self-hosted, mama]
 
+    defaults:
+      run:
+        working-directory: ./parent
+
     steps:
       - name: Checkout
         uses: actions/checkout@v4
