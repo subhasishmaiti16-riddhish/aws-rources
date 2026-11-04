@@ -17,7 +17,7 @@ data "aws_ami" "ubuntu" {
 data "aws_subnet" "main" {
   filter {
     name   = "tag:Name"
-    values = ["subnet1"]
+    values = ["dev-subnet1"]
   }
 }
 
