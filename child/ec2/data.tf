@@ -20,3 +20,16 @@ data "aws_subnet" "main" {
     values = ["subnet1"]
   }
 }
+
+data "aws_vpc" "main" {
+  filter {
+    name   = "tag:Name"
+    values = ["dev-vpc"]
+  }
+}
+
+data "aws_security_group" "main" {
+  for_each = var.ec2
+  name     = each.value.sg_name
+  vpc_id   = data.aws_vpc.main.id
+}

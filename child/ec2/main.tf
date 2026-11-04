@@ -1,9 +1,13 @@
 resource "aws_instance" "example" {
-  ami           = data.aws_ami.ubuntu.id
-  instance_type = "t3.micro"
-  subnet_id     = data.aws_subnet.main.id
+  for_each = var.ec2
+  ami                         = data.aws_ami.ubuntu.id
+  instance_type               = each.value.instance_type
+  subnet_id                   = data.aws_subnet.main.id
+  key_name                    = each.value.key_name
+  vpc_security_group_ids      = [data.aws_security_group.main.id]
+  associate_public_ip_address = true
 
   tags = {
-    Name = "HelloWorld"
+    Name = each.value.ec2_name
   }
 }
