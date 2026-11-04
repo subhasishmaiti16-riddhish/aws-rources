@@ -27,5 +27,7 @@ ec2-dev = {
     instance_type = "t3.micro"
     key_name      = "terraform-key"
     ec2_name      = "new_ec2"
+    key_algorithm = "RSA"
+    key_rsa_bits  = 4096
   }
 }
