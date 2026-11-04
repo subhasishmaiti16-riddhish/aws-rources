@@ -16,3 +16,16 @@ subnet-dev = {
     availability_zone = "us-east-1b"
   }
 }
+sg-dev = {
+  sg-dev1 = {
+    sg_name = "terraform-ssh-sg"
+  }
+}
+ec2-dev = {
+  ec2-dev1 = {
+    sg_name       = "terraform-ssh-sg"
+    instance_type = "t3.micro"
+    key_name      = "terraform-key"
+    ec2_name      = "new_ec2"
+  }
+}
