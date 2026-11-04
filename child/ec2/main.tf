@@ -4,7 +4,7 @@ resource "aws_instance" "example" {
   instance_type               = each.value.instance_type
   subnet_id                   = data.aws_subnet.main.id
   key_name                    = each.value.key_name
-  vpc_security_group_ids      = [data.aws_security_group.main.id]
+  vpc_security_group_ids      = [data.aws_security_group.main[each.key].id]
   associate_public_ip_address = true
 
   tags = {
