@@ -1,7 +1,7 @@
 resource "aws_security_group" "ssh" {
   for_each = var.sg
   name     = each.value.sg_name
-  vpc_id   = data.aws_subnet.main.vpc_id
+  vpc_id   = data.aws_vpc.main.id
 
   ingress {      #####Inbound traffic rules
     from_port   = 22
